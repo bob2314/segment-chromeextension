@@ -46,52 +46,63 @@ chrome.extension.onConnect.addListener((port) => {
 
 chrome.webRequest.onBeforeRequest.addListener(
 	(details) => {
-		if (details.url.startsWith('https://api.segment.io/v1')) {
-			var postedString = String.fromCharCode.apply(null,new Uint8Array(details.requestBody.raw[0].bytes));
-			
-			var rawEvent = JSON.parse(postedString);
-			
-			var today = new Date();
-			
-			var h = zeroPad(today.getHours());
-			var m = zeroPad(today.getMinutes());
-			var s = zeroPad(today.getSeconds());
+    // Fox segment domain update:
+	// Request URL: https://api.dev-nova.foxtv.com/v1/t
+	const base_uri = 'nova.foxtv'
+    if (
+      details.url.startsWith("https://api.segment.io/v1") ||
+		  details.url.includes("nova.foxtv") ||
+      details.url.includes(base_uri)
+    ) {
+      var postedString = String.fromCharCode.apply(
+        null,
+        new Uint8Array(details.requestBody.raw[0].bytes)
+      );
 
-			var event = {
-				eventName: rawEvent.event,
-				raw: postedString,
-				trackedTime: h + ':' + m + ':' + s,
-			};
+      var rawEvent = JSON.parse(postedString);
 
-			chrome.tabs.query({
-				active: true,
-				currentWindow: true
-			}, (tabs) => {
-				var tab = tabs[0];
-				
-				event.hostName = tab.url;
-				event.tabId = tab.id;
+      var today = new Date();
 
-				if (details.url == 'https://api.segment.io/v1/t') {
-					event.type = 'track';
-					
-					trackedEvents.unshift(event);
-				}
-				else if (details.url == 'https://api.segment.io/v1/i') {
-					event.eventName = 'Identify';
-					event.type = 'identify';
-					
-					trackedEvents.unshift(event);
-				}
-				else if (details.url == 'https://api.segment.io/v1/p') {
-					event.eventName = 'Page loaded';
-					event.type = 'pageLoad';
-					
-					trackedEvents.unshift(event);
-				}
-			});
-		}
-	},
+      var h = zeroPad(today.getHours());
+      var m = zeroPad(today.getMinutes());
+      var s = zeroPad(today.getSeconds());
+
+      var event = {
+        eventName: rawEvent.event,
+        raw: postedString,
+        trackedTime: h + ":" + m + ":" + s,
+      };
+
+      chrome.tabs.query(
+        {
+          active: true,
+          currentWindow: true,
+        },
+        (tabs) => {
+          var tab = tabs[0];
+
+          event.hostName = tab.url;
+          event.tabId = tab.id;
+
+          if (details.url == "https://api.segment.io/v1/t" || details.url == 'https://api.dev-nova.foxtv.com/v1/t') {
+            event.type = "track";
+
+            trackedEvents.unshift(event);
+          } else if (details.url == "https://api.segment.io/v1/i" || details.url == 'https://api.dev-nova.foxtv.com/v1/1')  {
+            event.eventName = "Identify";
+            event.type = "identify";
+
+            trackedEvents.unshift(event);
+          } else if (details.url == "https://api.segment.io/v1/p" || details.url == 'https://api.dev-nova.foxtv.com/v1/p')  {
+            event.eventName = "Page loaded";
+            event.type = "pageLoad";
+
+            trackedEvents.unshift(event);
+          }
+        }
+      );
+    }
+  },
 	{
 	urls: [
 		"https://*/*",
