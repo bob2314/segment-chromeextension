@@ -3,6 +3,10 @@
 Chrome extension tracking [Segment](https://segment.com/) events, so you can easily see what's being sent.
 
 Tracks all outgoing Segment API calls, and shows them in the extension.
+Extension has been modified to include Segment tracking information originating from a custom Segment domain.  
+
+In this case: **nova**, *-**nova**. URIs in addition to **Segment**
+
 
 ### Valid Track Domains
 1. segment.com
@@ -17,7 +21,9 @@ Tracks all outgoing Segment API calls, and shows them in the extension.
 ![See what exactly is tracked](/screenshots/segment-plugin-pic-2.jpg?raw=true "See what exactly is tracked")
 
 ## How to get the extension
-Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/segment-event-tracker/hbanigoffkilibdakdmmlgefndpjmajl) and press the "Add to Chrome" button.
+
+OriginalGo to [Chrome Web Store](https://chrome.google.com/webstore/detail/segment-event-tracker/hbanigoffkilibdakdmmlgefndpjmajl) and press the "Add to Chrome" button.
+
 
 ## How to get started hacking
 - Clone the repository
