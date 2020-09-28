@@ -4,12 +4,17 @@ Chrome extension tracking [Segment](https://segment.com/) events, so you can eas
 
 Tracks all outgoing Segment API calls, and shows them in the extension.
 
+### Valid Track Domains
+1. segment.com
+2. nova.foxtv.com/v1/1
+3. nova.foxtv.com/v1/p
+
 ## Screenshots
 ###### See what's tracked live
-![See what's tracked live](/screenshots/see_tracked_live.jpg?raw=true "See what's tracked live")
+![See what's tracked live](/screenshots/segment-plugin-pic-1.jpg?raw=true "See what's tracked live")
 
 ###### See what exactly is tracked
-![See what exactly is tracked](/screenshots/see_what_is_tracked.jpg?raw=true "See what exactly is tracked")
+![See what exactly is tracked](/screenshots/segment-plugin-pic-2.jpg?raw=true "See what exactly is tracked")
 
 ## How to get the extension
 Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/segment-event-tracker/hbanigoffkilibdakdmmlgefndpjmajl) and press the "Add to Chrome" button.
