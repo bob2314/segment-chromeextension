@@ -84,16 +84,22 @@ chrome.webRequest.onBeforeRequest.addListener(
           event.hostName = tab.url;
           event.tabId = tab.id;
 
-          if (details.url == "https://api.segment.io/v1/t" || details.url == 'https://api.dev-nova.foxtv.com/v1/t') {
+          /**
+           * Check or valid domains
+           * 1) api.segment.io/v1/t
+           * 2) nova.foxtv.com/v1/1
+           * 3) nova.foxtv.com/v1/p
+           */
+          if (details.url == "https://api.segment.io/v1/t" || details.url.includes('nova.foxtv') && details.url.includes('v1/t')) {
             event.type = "track";
 
             trackedEvents.unshift(event);
-          } else if (details.url == "https://api.segment.io/v1/i" || details.url == 'https://api.dev-nova.foxtv.com/v1/1')  {
+          } else if (details.url == "https://api.segment.io/v1/1" || details.url.includes('nova.foxtv') && details.url.includes('v1/1')) {
             event.eventName = "Identify";
             event.type = "identify";
 
             trackedEvents.unshift(event);
-          } else if (details.url == "https://api.segment.io/v1/p" || details.url == 'https://api.dev-nova.foxtv.com/v1/p')  {
+        } else if (details.url == "https://api.segment.io/v1/p" || details.url.includes('nova.foxtv') && details.url.includes('v1/p')) {
             event.eventName = "Page loaded";
             event.type = "pageLoad";
 
