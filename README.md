@@ -29,4 +29,5 @@ Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/segment-event
 *Pull requests and issues are more than welcome.*
 
 Have fun!
- - <a href="http://www.martinmouritzen.dk">Martin Mouritzen</a>
+ - Forked from: <a href="http://www.martinmouritzen.dk">Martin Mouritzen</a>
+ - Adapted for custom use case:  <a href="http://bobbrennan.com">Bob Brennan</a>
