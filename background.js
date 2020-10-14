@@ -46,7 +46,7 @@ chrome.extension.onConnect.addListener((port) => {
 
 chrome.webRequest.onBeforeRequest.addListener(
 	(details) => {
-		if (details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('http://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) {
+		if (details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) {
 			var postedString = String.fromCharCode.apply(null,new Uint8Array(details.requestBody.raw[0].bytes));
 
 			var rawEvent = JSON.parse(postedString);
@@ -72,18 +72,18 @@ chrome.webRequest.onBeforeRequest.addListener(
 				event.hostName = tab.url;
 				event.tabId = tab.id;
 
-				if ((details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('http://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) && details.url.includes('/v1/t')) {
+				if ((details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) && details.url.includes('/v1/t')) {
 					event.type = 'track';
 
 					trackedEvents.unshift(event);
 				}
-				else if ((details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('http://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) && details.url.includes('/v1/i')) {
+				else if ((details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) && details.url.includes('/v1/i')) {
 					event.eventName = 'Identify';
 					event.type = 'identify';
 
 					trackedEvents.unshift(event);
 				}
-				else if ((details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('http://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) && details.url.includes('/v1/p')) {
+				else if ((details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) && details.url.includes('/v1/p')) {
 					event.eventName = 'Page loaded';
 					event.type = 'pageLoad';
 
