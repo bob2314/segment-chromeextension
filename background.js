@@ -44,13 +44,17 @@ chrome.extension.onConnect.addListener((port) => {
 	});
 });
 
+const validUrls = ['https://api.segment.io/v1', 'https://api.dev-nova.fox', 'https://api.nova.fox'];
+const trackParam = ['/v1/i', '/v1/p', '/v1/t'];
+
 chrome.webRequest.onBeforeRequest.addListener(
 	(details) => {
-		if (details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) {
+
+		const isValid = validUrls.find(a =>a.startsWith(details.url));
+
+		if (isValid) {
 			var postedString = String.fromCharCode.apply(null,new Uint8Array(details.requestBody.raw[0].bytes));
-
 			var rawEvent = JSON.parse(postedString);
-
 			var today = new Date();
 
 			var h = zeroPad(today.getHours());
@@ -72,18 +76,18 @@ chrome.webRequest.onBeforeRequest.addListener(
 				event.hostName = tab.url;
 				event.tabId = tab.id;
 
-				if ((details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) && details.url.includes('/v1/t')) {
+				if ( isValid && details.url.includes('/v1/t')) {
 					event.type = 'track';
 
 					trackedEvents.unshift(event);
 				}
-				else if ((details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) && details.url.includes('/v1/i')) {
+				else if (isValid && details.url.includes('/v1/i')) {
 					event.eventName = 'Identify';
 					event.type = 'identify';
 
 					trackedEvents.unshift(event);
 				}
-				else if ((details.url.startsWith('https://api.segment.io/v1') || details.url.startsWith('https://api.dev-nova.fox') || details.url.startsWith('https://api.nova.fox')) && details.url.includes('/v1/p')) {
+				else if (isValid && details.url.includes('/v1/p')) {
 					event.eventName = 'Page loaded';
 					event.type = 'pageLoad';
 
